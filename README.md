@@ -1,7 +1,35 @@
-# DevOps Capstone Template
+# Customer Accounts Microservice
 
+[![Build Status](https://github.com/shlokn678/devops-capstone/actions/workflows/ci-build.yaml/badge.svg)](https://github.com/shlokn678/devops-capstone/actions)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python 3.9](https://img.shields.io/badge/Python-3.9-green.svg)](https://shields.io/)
+
+A RESTful Customer Accounts microservice built with Flask and PostgreSQL. It supports creating, reading, listing, updating, and deleting accounts, adds security headers (Flask-Talisman) and a CORS policy (Flask-Cors), runs CI with GitHub Actions, and is packaged with Docker for deployment to Kubernetes/OpenShift through a Tekton CD pipeline.
+
+## REST API
+
+| Method | Path | Description | Success code |
+|--------|------|-------------|--------------|
+| GET | `/health` | Health check | 200 |
+| POST | `/accounts` | Create an account (JSON body) | 201 |
+| GET | `/accounts` | List all accounts | 200 |
+| GET | `/accounts/<id>` | Read an account | 200 (404 if missing) |
+| PUT | `/accounts/<id>` | Update an account (JSON body) | 200 (404 if missing) |
+| DELETE | `/accounts/<id>` | Delete an account | 204 |
+
+## Quick start
+
+```bash
+make install          # install Python dependencies
+make db               # start PostgreSQL in Docker
+make lint             # run flake8
+nosetests             # run the tests with coverage (settings in setup.cfg)
+make run              # start the service with honcho/gunicorn
+```
+
+Container build: `docker build -t accounts:1 .` (the container listens on port 8080). Kubernetes manifests are in `deploy/` and the Tekton pipeline is in `tekton/`.
+
+## Template origin
 
 This repository contains the starter code for the project in [**IBM-CD0285EN-SkillsNetwork DevOps Capstone Project**](https://www.coursera.org/learn/devops-capstone-project?specialization=devops-and-software-engineering) which is part of the [**IBM DevOps and Software Engineering Professional Certificate**](https://www.coursera.org/professional-certificates/devops-and-software-engineering)
 
